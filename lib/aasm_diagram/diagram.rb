@@ -32,9 +32,9 @@ module AASMDiagram
           from = @graphviz.get_node(transition.from.to_s)
           to = @graphviz.get_node(transition.to.to_s)
           label = event.name.to_s
-          unless h[from, to, label]
+          unless h[[from, to, label]]
             @graphviz.add_edges(from, to, label: label) unless from.nil?
-            h[from, to, label] = label
+            h[[from, to, label]] = label
           end
         end
       end
