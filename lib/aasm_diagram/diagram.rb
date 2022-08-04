@@ -4,7 +4,7 @@ module AASMDiagram
   #
   class Diagram
     def initialize(aasm_instance, filename, type=nil)
-      type ||= ENV['AASM-OUTPUT-FORMAT'].to_sym || :png
+      type ||= ENV['AASM_OUTPUT_FORMAT'].to_sym || :png
       @aasm_instance = aasm_instance
       @type = type
       draw
