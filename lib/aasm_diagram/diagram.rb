@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module AASMDiagram
   #
   # Save a diagram of a single AASM state machine to an image
   #
   class Diagram
-    def initialize(aasm_instance, filename, type=nil)
+    def initialize(aasm_instance, filename, type = nil)
       type ||= ENV['AASM_OUTPUT_FORMAT'].to_sym || :png
       @aasm_instance = aasm_instance
       @type = type
@@ -24,12 +26,16 @@ module AASMDiagram
     end
 
     def draw_edges
+      h = {}
       events.each do |event|
         event.transitions.each do |transition|
           from = @graphviz.get_node(transition.from.to_s)
           to = @graphviz.get_node(transition.to.to_s)
           label = event.name.to_s
-          @graphviz.add_edges(from, to, label: label)  unless from.nil?
+          unless h[from, to, label]
+            @graphviz.add_edges(from, to, label: label) unless from.nil?
+            h[from, to, label] = label
+          end
         end
       end
     end
